@@ -112,17 +112,7 @@ function Panel() {
                 pattern={"^[0-9]{2}-[0-9]{3}-[0-9]{4}"}
               />
             </div>
-            <div>
-              <Textbox
-                label="Panel-ID"
-                placeholder="Enter Panel Id"
-                handleChange={(value) => updateForm("panelId", value)}
-                value={panelForm.panelId}
-                format={"text"}
-                maxlength={"10"}
-                pattern={"^[0-9]{2}-[0-9]{3}-[0-9]{4}"}
-              />
-            </div>
+    
           </div>
           <div class="sec1">
             <div>
