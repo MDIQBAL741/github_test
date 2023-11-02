@@ -17,4 +17,5 @@ public class ReportRequestDto {
     private CandidateRegistration candidateRegistration;
     private LocalDate startDate;
     private LocalDate endDate;
+    private LocalDate endDate1;
 }
