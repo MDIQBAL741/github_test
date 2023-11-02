@@ -1,0 +1,29 @@
+.main{
+    display: flex;
+    flex-direction: row;
+    
+}
+.href{
+    text-align: center;
+    width:240px;
+    padding:10px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+}
+.id2{
+    
+    text-align: left;
+    border-radius: 20px;
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    box-sizing: content-box;
+}
+.id3{
+    padding: 150px 0px 0px 0px;
+    float: left;
+}
+.aside{
+ float: left;
+}
