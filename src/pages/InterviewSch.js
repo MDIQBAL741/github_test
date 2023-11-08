@@ -282,7 +282,7 @@ function InterviewSch() {
               label={"Schedule"}
               variant={"light"}
               handleForm={handleForm}    
-              disabled={!candidateemail || !panelname || !insForm.programs.value || !insForm.level.value || !insForm.date || !insForm.startTime}
+              disabled={!candidateemail || !panelname || !insForm.programs.value || !insForm.level.value || !insForm.date || !insForm.startTime || !insForm.endTime}
             />
 
             <ButtonComponent
