@@ -14,6 +14,7 @@ import InterviewSch from "./pages/InterviewSch";
 // import Inter from "./pages/Inter";
 import Status from "./pages/StatusUpdate";
 import UpdateSkill from "./pages/UpdateSkill";
+
 import { ToastContainer } from "react-toastify";
 
 function App() {
@@ -29,10 +30,11 @@ function App() {
           <Route path="/registration"  Component={Reg} />
           <Route path="/RequirementForms"  Component={Requirement} />
           <Route path="/Skills" Component={Skills}/>
-          <Route path="/updateskill/:skillsId" Component={UpdateSkill}/>
+          {/* <Route path="/updateskill/:skillsId" Component={UpdateSkill}/> */}
           <Route path="/InterviewSch" Component={InterviewSch}/>
           {/* <Route path="/Inter" Component={Inter}/> */}
           <Route path="/StatusUpdate" Component={Status}/>
+          <Route path="/UpdateSkill/:skill" Component={UpdateSkill}/>
         </Routes>
         </div>
       </BrowserRouter>

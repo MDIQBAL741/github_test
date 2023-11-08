@@ -69,6 +69,7 @@ function InterviewSch() {
     axios
       .post("http://localhost:8083/interview/scheduleInterview", formData)
       .then((dat) => {
+        console.log(formData);
         toast.success("Interview Schedule Sucessfully")
       })
       .catch((err) => console.log(err));
@@ -255,7 +256,7 @@ function InterviewSch() {
                 placeholder="Panel Email"
                 handleChange={(value) => updateForm("panelEmail", value)}
                 value={panels && panels.length > 0 ? panels[0].panelEmail : ""}
-                format={"num"}
+                
                 
               />
             </div>

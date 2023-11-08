@@ -5,13 +5,16 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-// import Table from "../Components/Tablecom";
+import Swal from "sweetalert2";
+
 function Skills() {
   const [skills, setSkills] = useState("");
-  const [Updateskills, putSkills] = useState("");
-  const [delskills, deleteSkills] = useState("");
+
   const [masterData, setMasterData] = useState([]);
   const [updateskill, setupdateskill] = useState(-1);
+  const [uskillId,setUskillId] = useState("");
+  const [uskill,setUskill] = useState("");
+
   const getSkill = () => {
     axios
       .get("http://localhost:8083/getallskills")
@@ -36,49 +39,36 @@ function Skills() {
  
     setSkills("");
   };
-  const skillUpdate = (e) => {
-    e.preventDefault();
-    axios
-      .put("http://localhost:8083/updateskill/", { skill: Updateskills })
-      .then((res) => {
-        if (res.status == 200) {
-          getSkill();
-        }
-      });
-      getSkill();
-  };
-  const skillDelete = (e) => {
-    e.preventDefault();
-    axios
-      .delete("http://localhost:8083/deleteby", { skill: delskills })
-      .then((res) => {
-        if (res.status == 200) {
-          getSkill();
-        }
-      });
-    deleteSkills();
-  };
+  
   function handleEdit(skillsId){
-    setupdateskill(skillsId)
+    axios
+    .get("http://localhost:8083/getbyId/"+skillsId)
+      .then((skill) => {
+        console.log(skillsId);
+        setUskillId(skill.data.skillsId)
+        setUskill(skill.data.skill)
+      })
+      .catch((err) => console.log(err));
+      setupdateskill(skillsId)
   }
-  function Edit({rec,skills,setSkills}){
-    function handleskill(e) {
-      const skill = e.target.value;
-      const updateskill = masterData.map((d) => d.skillsId === rec.skillsId ? {...d, skill:skill} : d)
-      setSkills(updateskill)
+  function handleUpdate(){
+    axios.put("http://localhost:8083/updateskill/"+updateskill,{skill: uskill})
+    .then(res =>{
+      console.log(res);
+      
+      setupdateskill(-1);
+    }).catch(err=>console.log(err));
+  }
+
+  function handleDelete(skillsId){
+    axios
+    .delete("http://localhost:8083/deleteskills/"+skillsId)
+    .then((dat)=> {toast.success("skill deleted sucessfully")
+    if(dat.status==200){
+      getSkill();
     }
-    return(
-      <tr>
-      <td><input type="text" name="skillsId"  value={rec.skillsId}/></td>
-      <td><input type="text" name="skill" onChange={handleskill} value={rec.skill}/></td>
-      <td><button type="submit">Update</button></td>
-      </tr>
-    )
-  }
-  function handleUpdate(e){
-    e.preventDefault()
-    setupdateskill(-1)
-  }
+  });
+}
   return (
     <div>
       <div className="main">
@@ -113,7 +103,7 @@ function Skills() {
               </div>
             </div>
             <div>
-              <form onSubmit={handleUpdate}>
+              <form >
               <table className="table">
                 <thead>
                   <tr>
@@ -126,26 +116,25 @@ function Skills() {
               
                   {masterData.map((rec) => {
                     return (
-                      updateskill === rec.skillsId ? <Edit rec={rec} skills={skills} setSkills={setSkills}/>:
+                      rec.skillsId === updateskill ?
+                      <tr>
+                        <td><input type="text" value={uskillId} /></td>
+                        <td><input type="text" value={uskill} onChange={(e) => setUskill(e.target.value)}/></td>
+                        <td><button className="btn btn-sm btn-success" onClick={handleUpdate} >Update</button></td>
+                      </tr>
+                      :
                       <tr>
                         <td>{rec.skillsId}</td>
                         <td>{rec.skill}</td>
                         <td className="updatedelete">
-                          <Button className="btn btn-sm btn-success" onClick={()=> handleEdit(rec.skillsId)} type="button">
-                            Update
-                          </Button>
+                          <Link className="btn btn-sm btn-success"
+                          onClick={()=>handleEdit(rec.skillsId)}>
+                            Edit
+                          </Link>
  
-                          <Link to="/delete">
-                            <Button
-                              type="submit"
-                              variant={"light"}
-                              className="btn btn-primary3"
-                              data-bs-toggle="modal"
-                              data-bs-target="#exampleModal"
-                              onClick={skillDelete}
-                            >
-                              Delete Skill
-                            </Button>
+                          <Link className="btn btn-sm btn-danger" onClick={()=> handleDelete(rec.skillsId)}>
+
+                            Delete
                           </Link>
                         </td>
                       </tr>
