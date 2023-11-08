@@ -35,6 +35,7 @@ function Requirement() {
   const [name, setName] = useState("");
 
   const [requirementForm, setRequirementForm] = useState(formData);
+  const [skill, setSkill] = useState("");
 
   const updateForm = (keyName, value) => {
 
@@ -74,8 +75,24 @@ function Requirement() {
   useEffect(() => {
 
   }, [requirementForm]);
+  const [values, setvalues] = useState([]);
+  const getskills = () => {
+    axios
+      .get("http://localhost:8083/getallskills")
+      .then((skill) => {
+        setvalues(skill.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
- 
+  const skillvalue = (e) => {
+    const selectedvalue = e.target.value;
+    console.log(selectedvalue, "skill");
+    setSkill(e.target.value);
+  };
+  useEffect(() => {
+    getskills();
+  }, []);
 
   return (
 
@@ -147,8 +164,7 @@ function Requirement() {
 
                 value={requirementForm.projectName}
 
-                type={"alpha"}
-
+                format={"text"}
               />
 
             </div>
@@ -199,45 +215,20 @@ function Requirement() {
 
             <div class="d">
 
-              <Dropdown
+            <div>
+              <label>Skill</label>
+              <select
+                aria-label="Default select example"
+                class="ddl-style form-select"
+                onChange={skillvalue}
+              >
+                <option>select skill</option>
 
-                label={"Skills/Domain"}
-
-                handleChange={(value) => updateForm("skill", value)}
-
-                val={requirementForm?.skill?.value}
-
-                data={[
-
-                  { label: "Ab initio", value: "Ab initio" },
-
-                  { label: "devops", value: "devops" },
-
-                  { label: "Data Architect", value: "Data Architect" },
-
-                  { label: "Java mid", value: "Java mid" },
-
-                  { label: "Java Senior", value: "Java Senior" },
-
-                  { label: "Java + React", value: "Java + React" },
-
-                  { label: "Main Frame", value: "Main Frame" },
-
-                  { label: "Main Frame + TOSCA", value: "Main Frame + TOSCA" },
-
-                  { label: "QA junior", value: "QA junior" },
-
-                  { label: "QA Performance Testing", value: "QA Performance Testing" },
-
-                  { label: "Scrum master", value: "Scrum master" },
-
-                  { label: "BA", value: "BA" },
-
-                  { label: "Tech BA", value: "Tech BA" },
-
-                ]}
-
-              />
+                {values.map((opts, i) => (
+                  <option>{opts.skill}</option>
+                ))}
+              </select>
+            </div>
 
             </div>
 
