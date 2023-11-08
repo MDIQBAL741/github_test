@@ -64,6 +64,7 @@ public class CandidateController {
     public  List<SkillsList> getallskills(){
         return candidateServices.getallskills();
     }
+
     @GetMapping("getbyId/{skillsId}")
     public SkillsList getbyId(@PathVariable int skillsId){
         return candidateServices.getbyId(skillsId);
@@ -112,9 +113,9 @@ public class CandidateController {
     public List<CandidateRegistration> get(@PathVariable String skills) {
         return candidateServices.findBySkill(skills);
     }
-    @DeleteMapping("/deleteskills/{skill}")
-    public String deleteskill(@PathVariable String skill){
-        return candidateServices.deleteskills(skill);
+    @DeleteMapping("/deleteskills/{skillsId}")
+    public String deleteskill(@PathVariable int skillsId){
+        return candidateServices.deleteskills(skillsId);
     }
 
 

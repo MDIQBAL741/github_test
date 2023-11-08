@@ -161,11 +161,11 @@ public class CandidateServices {
         return skillsRepo.findAll();
     }
 
-    public String deleteskills(String skill) {
-       SkillsList exist=skillsRepo.getbyskill(skill);
+    public String deleteskills(int skillsId) {
+       SkillsList exist=skillsRepo.getbyskill(skillsId);
        if (exist!=null)
        {
-           skillsRepo.deletebyskill(skill);
+           skillsRepo.deletebyskill(skillsId);
        }
            return "skill deleted";
     }
