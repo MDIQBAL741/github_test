@@ -1,10 +1,7 @@
 package candidateproject.details.Candidate.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name="candidate")
 public class CandidateRegistration {
 
@@ -41,7 +39,7 @@ public class CandidateRegistration {
     private String  currentctc;
     private String  expectedctc;
     private String noticePeriod;
-//    @Column(unique = true)
+    @Column(unique = true)
     private String pancard;
     @Column
     private String status;
@@ -55,8 +53,9 @@ public class CandidateRegistration {
 
     public CandidateRegistration(int candidateId, String name, String fileDownloadUri, int length) {
     }
+    public CandidateRegistration(String name, String email, Long phone, String status){
 
-
+    }
 
     public Object orElse(CandidateRegistration candidateRegistration) {
         return new CandidateRegistration();

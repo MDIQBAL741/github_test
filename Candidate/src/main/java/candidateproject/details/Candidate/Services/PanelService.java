@@ -26,12 +26,6 @@ public class PanelService {
         return panelRepository.findAll();
 
     }
-
-    public Panel getPanelById(int panelId) {
-
-        return panelRepository.findById(panelId).orElse(null);
-    }
-
     public Panel getPanelByEmail(String panelEmail) {
         return panelRepository.findByPanelEmail(panelEmail);
     }
@@ -40,12 +34,10 @@ public class PanelService {
     public Panel updatePanel(PanelDTO panelDTO) {
         Panel panel1=modelMapper.map(panelDTO,Panel.class);
         Panel existingPanelRegistration = panelRepository.findByPanelEmail(panelDTO.getPanelEmail());
-//        existingPanelRegistration.setSkillsId(panel1.getSkillsId());
         existingPanelRegistration.setStartTime(panel1.getStartTime());
         existingPanelRegistration.setEndTime(panel1.getEndTime());
         existingPanelRegistration.setNumberOfSlots(panel1.getNumberOfSlots());
         existingPanelRegistration.setLevel(panel1.getLevel());
-        // existingPanelRegistration.setScheduleTimeSlots(panel.getScheduleTimeSlots());
         return panelRepository.save(existingPanelRegistration);
     }
 
@@ -57,10 +49,5 @@ public class PanelService {
         }
         return "candidate deleted";
 
-    }
-
-    public List<Panel> getPanelBySkill(String skill) {
-        List<Panel> panels= panelRepository.findBySkillId(skill);
-        return panels;
     }
 }

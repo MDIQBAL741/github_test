@@ -1,21 +1,15 @@
 package candidateproject.details.Candidate.Dto;
-import candidateproject.details.Candidate.Entity.CandidateRegistration;
-import candidateproject.details.Candidate.Entity.CandidateStatus;
-import candidateproject.details.Candidate.Entity.InterviewSchedule;
 import candidateproject.details.Candidate.Entity.Requirement;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CandidateRegistrationDto {
     private int candidateId;
     private String candidateType;
@@ -40,8 +34,8 @@ public class CandidateRegistrationDto {
     private String noticePeriod;
     private String anyOffer;
     private String currentOrg;
-//    @NotNull(message = "pancard can't be null")
-//    @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]{1}",message = "invalid Pan")
+    @NotNull(message = "pancard can't be null")
+    @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]{1}",message = "invalid Pan")
     private String pancard;
     @OneToOne
     @JoinColumn(name = "reqId",referencedColumnName = "reqId")
@@ -51,4 +45,6 @@ public class CandidateRegistrationDto {
 
     private MultipartFile resume;
 
+    public CandidateRegistrationDto(int i, String internal, String number, String iqbal, String mail, String java, int i1, long l, String number1, String hyd, String pune, String no, String asd, String number2, String number3, int i2, String axdfv2444F, String se) {
+    }
 }

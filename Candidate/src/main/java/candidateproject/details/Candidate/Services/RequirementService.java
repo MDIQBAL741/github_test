@@ -19,13 +19,17 @@ public class RequirementService {
         return requirementRepo.save(requirement);
     }
 
-    public Requirement update() {
-        List<CandidateRegistration> exist = candidateRepo.findAll();
-
-//        String exist1 = candidateRegistration.getStatus();
-//        if (exist1=="Onboard"){
-//            requirement.setTotalPosition((requirement.getTotalPosition())-1);
-//        }
-        return (Requirement) exist;
+    public String update(Requirement requirement) {
+      Requirement requirement1 = requirementRepo.findbyProjectName(requirement.getProjectName());
+        if (!(requirement1 == null)) {
+            requirement1.setManagerName(requirement.getManagerName());
+            requirement1.setProjectLocation(requirement.getProjectLocation());
+            requirement1.setSkill(requirement.getSkill());
+            requirement1.setTotalPosition(requirement.getTotalPosition());
+            requirementRepo.save(requirement1);
+        }else {
+            return "Invalid ProjectName";
+        }
+        return "Updated Sucessfully";
     }
 }

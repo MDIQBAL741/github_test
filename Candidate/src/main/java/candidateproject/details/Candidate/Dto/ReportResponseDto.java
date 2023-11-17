@@ -13,7 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportResponseDto {
-    private List<LocalDate> date;
+    private LocalDate date1;
+    private LocalDate date2;
     private List<String> candidateEmail;
     private List<String> panelEmail;
     private List<String> status;

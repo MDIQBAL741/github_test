@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class CandidateServices {
@@ -54,7 +52,6 @@ public class CandidateServices {
     }
 
     public CandidateRegistration findbyemail(String email) {
-//        return (CandidateRegistration) candidateRepo.findByemail(email).orElse(null);
         CandidateRegistration exist= candidateRepo.findByemail(email);
         if (email.equals(exist)) {
             return exist;
@@ -65,7 +62,6 @@ public class CandidateServices {
         return (CandidateRegistration) candidateRepo.findByphone(phone).orElse(null);
     }
     public String deletebyemail(String email) {
-//      Optional<Object> candidate= candidateRepo.findByemail(email);
         statusUpdateRepo.deletebyemail(email);
         Integer delete =candidateRepo.deleteByemail(email);
         if (delete==0){
@@ -74,16 +70,7 @@ public class CandidateServices {
         else
             return "candidate deleted";
     }
-    //    public String deletebyphone(Long phone, CandidateRegistration candidateRegistration) {
-//       Optional<Object> candidate= candidateRepo.findByphone(phone);
-//        candidateRepo.selectemail(phone);
-//        statusUpdateRepo.deletebyemail(candidateRegistration.getEmail());
-//      Integer delete= candidateRepo.deleteByphone(phone);
-//      if (delete==0){
-//          return "phone not exist";
-//      }
-//        return "candidate deleted";
-//    }
+
     public CandidateRegistration updateCandidate(CandidateRegistrationDto candidateRegistrationDto) {
         CandidateRegistration candidate = modelMapper.map(candidateRegistrationDto, CandidateRegistration.class);
         CandidateRegistration existing = (CandidateRegistration) candidateRepo.findByemail(candidate.getEmail());
@@ -96,35 +83,13 @@ public class CandidateServices {
         existing.setResume(candidate.getResume());
         return candidateRepo.save(existing);
     }
-    public CandidateRegistration updates(CandidateRegistrationDto candidateRegistrationDto) {
-        CandidateRegistration candidate=modelMapper.map(candidateRegistrationDto,CandidateRegistration.class);
-        CandidateRegistration existing=  candidateRepo.findByphone(candidate.getPhone());
-        existing.setNoticePeriod(candidate.getNoticePeriod());
-        existing.setStatus(candidate.getStatus());
-        return candidateRepo.save(existing);
-    }
 
-
-    public List<CandidateRegistration> findBySkill(String skills) {
-
-        List<CandidateRegistration> candidateRegistrations = candidateRepo.findBySkill(skills);
-
-        return candidateRegistrations;
-    }
     public CandidateRegistration store(MultipartFile file,String email) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         CandidateRegistration FileDB = new CandidateRegistration(fileName,file.getName(), file.getBytes());
 
         return candidateRepo.save(FileDB);
     }
-
-    public CandidateRegistration getFile(String email) {
-        return candidateRepo.findById(Integer.valueOf(email)).get();
-    }
-//
-//    public Stream<CandidateRegistration> getAllFiles() {
-//        return candidateRepo.findAll().stream();
-//    }
 
     public String addstatus(CandidateStatus candidateStatus) {
 
@@ -139,9 +104,6 @@ public class CandidateServices {
             return "saved";
         }
         else return null;
-    }
-    public List<CandidateStatus> find(int candidateId){
-        return  statusUpdateRepo.findAllById(candidateId);
     }
 
     public List<CandidateStatus> findbylevel(String status) {
@@ -169,11 +131,6 @@ public class CandidateServices {
        }
            return "skill deleted";
     }
-
-    public Stream<CandidateRegistration> getallcandidate() {
-        return candidateRepo.findAll().stream();
-    }
-
 
     public SkillsList getbyId(int skillsId) {
        return skillsRepo.getbyskillId(skillsId);

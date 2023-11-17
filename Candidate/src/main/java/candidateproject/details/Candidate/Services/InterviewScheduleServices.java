@@ -27,59 +27,6 @@ public class InterviewScheduleServices {
     @Autowired
     ModelMapper modelMapper;
 
-
-//    public CandidateRegistration getcandidate(String email) {
-//        CandidateRegistration candidate=candidateRepo.findByemail(email);
-//        return candidate;
-//    }
-//
-//    public List<Panel> getpanel(String skill) {
-//       List<Panel> exist= panelRepository.findBySkillId(skill);
-//       return exist;
-//    }
-//
-//    public String submit(InterviewSchedule interviewSchedule, CandidateStatus candidateStatus, String email, String panelEmail) {
-//          CandidateRegistration exist= candidateRepo.findByemail(email);
-//          Panel exist1=panelRepository.findByPanelEmail(panelEmail);
-//          if (exist!=null&&exist1!=null&&exist1.getNumberOfSlots()>0) {
-//              interviewSchedule.setCandidateName(exist.getName());
-//              interviewSchedule.setCandiEmail(exist.getEmail());
-//              interviewSchedule.setPanelName(exist1.getPanelName());
-//              interviewSchedule.setPanelEmail(exist1.getPanelEmail());
-//              interviewSchedule.setStartTime(exist1.getStartTime());
-//              interviewSchedule.setEndTime(exist1.getEndTime());
-//              interviewSchedule.setDate(LocalDate.now());
-//              exist1.setNumberOfSlots( (exist1.getNumberOfSlots())-1);
-//              interviewScheduleRepo.save(interviewSchedule);
-//              exist.setStatus(interviewSchedule.getLevel());
-//              candidateRepo.save(exist);
-//              panelRepository.save(exist1);
-//              candidateStatus.setEmail(exist.getEmail());
-//              candidateStatus.setStatus(interviewSchedule.getLevel());
-//              candidateStatus.setDate(LocalDate.now());
-//              statusUpdateRepo.save(candidateStatus);
-//              return "Interview Schedule";
-//          }
-//          else return "Interview Not Schedule";
-//    }
-//
-//    public List<CandidateRegistration> getcandidates(String name) {
-//        return (List<CandidateRegistration>) candidateRepo.findByName(name);
-//    }
-//
-//    public List<Panel> getpanels(String panelName) {
-//        return panelRepository.findByname(panelName);
-//    }
-
-    public List<CandidateRegistration> gettingcandidates(String name) {
-        return candidateRepo.getbyname(name);
-    }
-
-    public List<Panel> gettingpanels(String panelName) {
-        return panelRepository.getbyname(panelName);
-    }
-
-
     public List<CandidateRegistration> getall() {
         return candidateRepo.findAll();
     }

@@ -5,8 +5,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -23,9 +26,8 @@ public interface StatusUpdateRepo extends JpaRepository<CandidateStatus,Integer>
     void deletebyemail(String email);
     @Query(value = "select * from candidate_status where email=:email",nativeQuery = true)
     List<CandidateStatus> findbyemail(String email);
+    @Query(value = "select * from candidatestatus where date between :date1 and :date2",nativeQuery = true)
+    List<CandidateStatus> statusbtwndates(@PathVariable("date1") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date1,
+                                          @PathVariable("date2") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date2);
 
-
-//    @Modifying
-//    @Query(value = "delete from candidate_status where phone:phone",nativeQuery = true)
-//    void deletebyphone(Long phone);
 }

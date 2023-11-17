@@ -34,14 +34,6 @@ public class PanelController {
     public Panel findPanelByEmail(@PathVariable("panelEmail") String panelEmail) {
         return panelService.getPanelByEmail(panelEmail);
     }
-    @GetMapping("panels/{panelId}")
-    public Panel findByPanelId(@PathVariable("panelId") int panelId){
-        return panelService.getPanelById(panelId);
-    }
-    @GetMapping("panelskill/{skill}")
-    public List<Panel> findBySkillId(@PathVariable("skill") String skill){
-        return  panelService.getPanelBySkill(skill);
-    }
 
     @PutMapping("/update")
     public ResponseEntity<Panel> updatePanel(@RequestBody PanelDTO panelDTO){

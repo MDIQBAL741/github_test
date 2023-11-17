@@ -33,24 +33,7 @@ public class CandidateController {
     public ResponseEntity<CandidateRegistration> add(@RequestParam("resume") MultipartFile file,@Valid @ModelAttribute CandidateRegistrationDto candidateRegistrationDto) throws IOException {
         return new ResponseEntity<>(candidateServices.add(file,candidateRegistrationDto),HttpStatus.CREATED);
     }
-//    @GetMapping("/files")
-//    public ResponseEntity<List<CandidateRegistration>> getListFiles() {
-//        List<CandidateRegistration> files = candidateServices.getAllFiles().map(dbFile -> {
-//            String fileDownloadUri = ServletUriComponentsBuilder
-//                    .fromCurrentContextPath()
-//                    .path(dbFile.getName())
-//                    .toUriString();
-//
-//            return files(
-//                    dbFile.getName(),
-//                    fileDownloadUri,
-//                    dbFile.getResume()
-//                    );
-//        }).collect(Collectors.toList());
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(files);
-//
-//    }
+
     @GetMapping("/candidate")
     public List<Object> getcandidate(){
         return candidateServices.getcandidate();
@@ -74,11 +57,6 @@ public class CandidateController {
     public SkillsList updateskill(@PathVariable int skillsId,@RequestBody SkillsList skillsList){
         return candidateServices.updateskill(skillsId,skillsList);
     }
-//    @GetMapping("/candidate/{email}")
-//    public CandidateRegistration findbyemail(@PathVariable String email) {
-//        return (CandidateRegistration) candidateServices.findbyemail(email);
-//    }
-
     @GetMapping("/candidates/{phone}")
     public CandidateRegistration findbyPhone(@PathVariable Long phone) {
         return candidateServices.findbyphone(phone);
@@ -88,11 +66,6 @@ public class CandidateController {
     public String deletebyemail(@PathVariable String email) {
         return candidateServices.deletebyemail(email);
     }
-
-//    @DeleteMapping("/deletee/{phone}")
-//    public String deleteByPhone(@PathVariable Long phone,@RequestBody CandidateRegistration candidateRegistration) {
-//        return candidateServices.deletebyphone(phone,candidateRegistration);
-//    }
 
     @PutMapping("/candidateupdate")
     public ResponseEntity<CandidateRegistration> update(@RequestBody CandidateRegistrationDto candidateRegistrationDto) {
@@ -104,15 +77,7 @@ public class CandidateController {
 //    public ResponseEntity<CandidateRegistration> updated( @RequestParam("file") MultipartFile file){
 //  //      return new ResponseEntity<>(candidateServices.updated(file),HttpStatus.CREATED);
 //    }
-    @PutMapping("/candidateupdatebyphone")
-    public ResponseEntity<CandidateRegistration> updates(@RequestBody CandidateRegistrationDto candidateRegistrationDto) {
-        return new ResponseEntity<>(candidateServices.updates(candidateRegistrationDto), HttpStatus.CREATED);
-    }
 
-    @GetMapping("/candidateskills/{skills}")
-    public List<CandidateRegistration> get(@PathVariable String skills) {
-        return candidateServices.findBySkill(skills);
-    }
     @DeleteMapping("/deleteskills/{skillsId}")
     public String deleteskill(@PathVariable int skillsId){
         return candidateServices.deleteskills(skillsId);
@@ -193,11 +158,6 @@ public ResponseEntity downloadfromdb(@PathVariable String email) {
     @PostMapping("/statusupdate")
     public String addstatus(@RequestBody CandidateStatus candidateStatus) {
         return candidateServices.addstatus(candidateStatus);
-    }
-
-    @GetMapping("/status/{candidateId}")
-    public List<CandidateStatus> find(@PathVariable int candidateId) {
-        return candidateServices.find(candidateId);
     }
     @GetMapping("/findbylevel/{status}")
     public List<CandidateStatus> findbylevel(@PathVariable String status){

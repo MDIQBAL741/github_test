@@ -2,8 +2,6 @@ package candidateproject.details.Candidate.Repository;
 
 import candidateproject.details.Candidate.Entity.CandidateRegistration;
 import jakarta.transaction.Transactional;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,9 +25,7 @@ public interface CandidateRepo extends JpaRepository<CandidateRegistration,Integ
     CandidateRegistration findByemail(String email);
 
     CandidateRegistration findByphone(Long phone);
-//    @Modifying
-//    @Query(value = "delete from candidate where phone =:phone",nativeQuery = true)
-//    Integer deleteByphone(Long phone);
+
 
     @Query(value = "select * from candidate where status=:status",nativeQuery = true)
     List<CandidateRegistration> getstatus(String status);
@@ -38,6 +34,4 @@ public interface CandidateRepo extends JpaRepository<CandidateRegistration,Integ
     @Query(value = "select * from candidate where name like :name%",nativeQuery = true)
     List<CandidateRegistration> getbyname(String name);
 
-//    @Query(value = "select email from candidate where phone=:phone",nativeQuery = true)
-//    void selectemail(Long phone);
 }

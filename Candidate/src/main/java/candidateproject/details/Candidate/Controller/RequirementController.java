@@ -20,7 +20,7 @@ public class RequirementController {
         return new ResponseEntity<>(requirementService.add(requirement), HttpStatus.CREATED);
     }
     @PutMapping("/update")
-    public Requirement update(){
-        return requirementService.update();
+    public String update(@RequestBody Requirement requirement){
+        return requirementService.update(requirement);
     }
 }
