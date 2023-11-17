@@ -296,3 +296,10 @@ padding: 10px;
 justify-content:center;
  
 }
+.Table-wrapper{
+  max-height: 400px;
+  overflow-y: auto;
+}
+.cs{
+  padding-top: 30px;
+}

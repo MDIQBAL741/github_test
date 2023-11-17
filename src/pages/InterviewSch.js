@@ -156,7 +156,7 @@ function InterviewSch() {
 
             <div>
               <div>
-                <label>Email</label>
+                <label>Candidate Email</label>
                 
                 <select aria-label="Default select example" class="ddl-style form-select" onChange={gettingCadndidateValues} 
                 value={candidateemail}
@@ -170,8 +170,8 @@ function InterviewSch() {
             </div>
             <div>
               <Textbox
-                label="name"
-                placeholder="Enter Name"
+                label="Candidate Name"
+                placeholder="Name"
                 handleChange={(value) => updateForm("name", value)}
                 value={
                   candidate && candidate.length > 0 ? candidate[0].name : ""
@@ -186,7 +186,7 @@ function InterviewSch() {
             <div>
               <Textbox
                 label="Skills"
-                placeholder="Enter Skills"
+                placeholder="Skill"
                 handleChange={(value) => updateForm("skills", value)}
                 value={
                   candidate && candidate.length > 0 ? candidate[0].skill : ""
@@ -239,7 +239,7 @@ function InterviewSch() {
               />
             </div>
             <div>
-              <label>Panel</label>
+              <label>Panel Name</label>
               <select aria-label="Default select example" class="ddl-style form-select" onChange={paneldetails} value={panelname}>
                 <option>Select Panel</option>
                 {panel.map((opts, i) => (
@@ -252,7 +252,7 @@ function InterviewSch() {
           <div>
               {" "}
               <Textbox
-                label="PanelEmail"
+                label="Panel Email"
                 placeholder="Panel Email"
                 handleChange={(value) => updateForm("panelEmail", value)}
                 value={panels && panels.length > 0 ? panels[0].panelEmail : ""}
@@ -264,7 +264,7 @@ function InterviewSch() {
               {" "}
               <Textbox
                 label="Slot"
-                placeholder="Enter Slot"
+                placeholder="No. of Slot"
                 handleChange={(value) => updateForm("numberOfSlots", value)}
                 value={panels && panels.length > 0 ? panels[0].numberOfSlots : ""}
                 format={"num"}

@@ -273,7 +273,7 @@ function Requirement() {
               variant={"light"}
               
 
-              // disabled={false}
+              disabled={!requirementForm.accountName || !requirementForm.managerName || !requirementForm.projectName || !requirementForm.projectLocation.value || !requirementForm.totalPosition ||!skill}
 
             />
 

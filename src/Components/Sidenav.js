@@ -22,11 +22,11 @@ function Sidenav() {
               </a>
             </div>
             
-            <div class="href">
+            {/* <div class="href">
               <a href="" class="href1">
               Add Panel Time Slot
               </a>
-            </div>
+            </div> */}
             <div class="href">
               <Link to="/InterviewSch" class="href1">
               Interview Schedule
@@ -38,9 +38,9 @@ function Sidenav() {
               </Link>
             </div>
             <div class="href">
-              <a href="" class="href1">
+              <Link to="/Report" class="href1">
               Report Service
-              </a>
+              </Link>
             </div>
             <div class="href">
               <a href="" class="href1">

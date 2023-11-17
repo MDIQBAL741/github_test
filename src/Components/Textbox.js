@@ -44,7 +44,7 @@ const Textbox = function ({
     }
     setErrorFlag(false);
     setErrorMsg("");
-    if (val) handleChange(e.target.value);
+    if (val || e.target.value ==="") handleChange(e.target.value);
   };
   return (
     <Form>
@@ -61,6 +61,8 @@ const Textbox = function ({
           value={value}
           maxLength={maxlength}
           pattern={pattern}
+          
+
         />
 
         {errorFlag && <span>{errorMsg}</span>}

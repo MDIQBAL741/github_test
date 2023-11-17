@@ -96,6 +96,8 @@ function Skills() {
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                     onClick={skillAdd}
+                    // disabled={!skills}
+                    
                   >
                     Add Skill
                   </Button>

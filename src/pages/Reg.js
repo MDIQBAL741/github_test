@@ -171,7 +171,7 @@ function Reg() {
                 placeholder="Enter Phone Number"
                 handleChange={(value) => updateForm("phone", value)}
                 value={regForm.phone}
-                format={"tel"}
+                // format={"tel"}
                 maxlength={"10"}
                 type={"num"}
               />
@@ -327,7 +327,7 @@ function Reg() {
                   placeholder="CTC in LPA"
                   handleChange={(value) => updateForm("currentctc", value)}
                   value={regForm.currentctc}
-                  type={"num"}
+                  format={"num"}
                   maxlength={4}
                 />
 
@@ -349,7 +349,7 @@ function Reg() {
                     handleChange={(value) => updateForm("currentOrg", value)}
                     value={regForm.currentOrg}
                     format={"text"}
-                    type={"alpha"}
+                    // type={"alpha"}
                   />
                 </div>
               </div>
@@ -420,8 +420,8 @@ function Reg() {
               label={"Submit"}
               variant={"light"}
               handleForm={handleForm}
-              // disabled={false}
-            />
+              disabled={!regForm.candidateType.value || !regForm.name || !regForm.phone || !skill || !regForm.level.value || !regForm.experience.value || !regForm.email || !regForm.baselocation.value || !regForm.preferedlocation.value}         
+                 />
 
             <ButtonComponent
               type={"reset"}
