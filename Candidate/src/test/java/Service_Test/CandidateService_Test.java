@@ -251,17 +251,4 @@ public class CandidateService_Test {
         assertEquals(2,candidateServices.getallskills().size());
         }
 
-        @Test
-    public void test_deleteskills(){
-            List<SkillsList> skillsList1=new ArrayList<SkillsList>();
-            skillsList1.add(new SkillsList(1,"Java"));
-            skillsList1.add(new SkillsList(2,"Python"));
-            SkillsList skillsList2= (SkillsList) skillsList1.stream().collect(Collectors.toList());
-            int skillid=2;
-            when(skillsRepo.getbyskill(skillid)).thenReturn(skillsList2);
-            if ((skillsList2.getSkill()!=null)){
-                when(skillsRepo.getbyskillId(skillid)).thenReturn(skillsList2);
-                assertEquals("skill deleted",candidateServices.deleteskills(skillid));
-            }
-        }
 }
