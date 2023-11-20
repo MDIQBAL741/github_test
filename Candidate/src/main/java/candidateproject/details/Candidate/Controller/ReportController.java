@@ -6,7 +6,9 @@ import candidateproject.details.Candidate.Dto.ReportResponseDto;
 import candidateproject.details.Candidate.Entity.CandidateRegistration;
 import candidateproject.details.Candidate.Entity.CandidateStatus;
 import candidateproject.details.Candidate.Entity.InterviewSchedule;
+import candidateproject.details.Candidate.Repository.InterviewScheduleRepo;
 import candidateproject.details.Candidate.Services.CandidateServices;
+import candidateproject.details.Candidate.Services.InterviewScheduleServices;
 import candidateproject.details.Candidate.Services.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +26,7 @@ public class ReportController {
     @Autowired
     ReportService reportService;
 
+
 //    @GetMapping("/all")
 //    public ReportResponseDto getall(@RequestBody ReportRequestDto reportRequestDto,ReportResponseDto reportResponseDto){
 //        return reportService.getall(reportRequestDto,reportResponseDto);
@@ -37,14 +40,20 @@ public class ReportController {
 //    public ReportResponseDto interview(ReportRequestDto reportRequestDto, ReportResponseDto reportResponseDto, @RequestBody InterviewScheduleDto interviewScheduleDto){
 //        return reportService.interview(reportRequestDto,reportResponseDto,interviewScheduleDto);
 //    }
-        @GetMapping("/candidateMail")
-        public List<CandidateRegistration> getcandidate(){
-           return (List<CandidateRegistration>) reportService.getcandidate();
-        }
 
         @GetMapping("/status_between_dates/{date1}/{date2}")
     public List<CandidateStatus> statusbtwndates(@PathVariable("date1") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date1,
                                                  @PathVariable("date2") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date2){
             return reportService.statusbtwndates(date1,date2);
+        }
+
+        @GetMapping("/interview_schedule_between/{date1}/{date2}")
+        public List<InterviewSchedule> interviewSchedules(@PathVariable("date1") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date1,
+                                                          @PathVariable("date2") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date2){
+            return reportService.interviewSchedulesbtwndates(date1,date2);
+        }
+        @GetMapping("/getcandidatedetails/{email}")
+    public List<ReportResponseDto> getcandidatedetails(@PathVariable String email,@RequestBody ReportResponseDto reportResponseDto){
+            return reportService.getcandidatedetails(email,reportResponseDto);
         }
 }

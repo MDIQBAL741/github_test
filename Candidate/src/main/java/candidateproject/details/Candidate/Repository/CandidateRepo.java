@@ -21,9 +21,9 @@ public interface CandidateRepo extends JpaRepository<CandidateRegistration,Integ
     @Modifying
     @Query(value="delete from candidate where email =:email",nativeQuery = true)
     Integer deleteByemail(@Param("email")String email);
-
+    @Query(value = "select * from candidate where email =:email",nativeQuery = true)
     CandidateRegistration findByemail(String email);
-
+    @Query(value = "select * from candidate where phone =:phone",nativeQuery = true)
     CandidateRegistration findByphone(Long phone);
 
 

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,11 +83,27 @@ public class ReportService {
 //return display;
 //
 //    }
-public List<CandidateRegistration> getcandidate() {
-    return  candidateRepo.findAll();
-}
-public List<CandidateStatus> statusbtwndates(Date date1, Date date2) {
+
+    public List<CandidateStatus> statusbtwndates(Date date1, Date date2) {
     return statusUpdateRepo.statusbtwndates(date1,date2);
 }
+
+    public List<InterviewSchedule> interviewSchedulesbtwndates(Date date1, Date date2) {
+    return interviewScheduleRepo.interviewSchedulesbtwndates(date1,date2);
+    }
+
+    public List<ReportResponseDto> getcandidatedetails(String email,ReportResponseDto reportResponseDto) {
+    CandidateRegistration candidateRegistration=candidateRepo.findByemail(email);
+    List<CandidateStatus> candidateStatus = statusUpdateRepo.findbyemail(email);
+    List<InterviewSchedule> interviewSchedule =  interviewScheduleRepo.findByEmail(email);
+    reportResponseDto.setCandidateEmail(Collections.singletonList(candidateRegistration.getEmail()));
+    reportResponseDto.setPhone(candidateRegistration.getPhone());
+    reportResponseDto.setSkill(Collections.singletonList(candidateRegistration.getSkill()));
+    reportResponseDto.setStatus(candidateStatus.stream().map(CandidateStatus::getStatus).collect(Collectors.toList()));
+    reportResponseDto.setComment(candidateStatus.stream().map(CandidateStatus::getComment).collect(Collectors.toList()));
+    reportResponseDto.setDate(candidateStatus.stream().map(CandidateStatus::getDate).collect(Collectors.toList()));
+    reportResponseDto.setPanelEmail(interviewSchedule.stream().map(InterviewSchedule::getPanelEmail).collect(Collectors.toList()));
+    return Collections.singletonList(reportResponseDto);
+    }
 
 }

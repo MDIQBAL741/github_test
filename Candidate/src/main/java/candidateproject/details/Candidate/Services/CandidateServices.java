@@ -62,13 +62,15 @@ public class CandidateServices {
         return (CandidateRegistration) candidateRepo.findByphone(phone).orElse(null);
     }
     public String deletebyemail(String email) {
-        statusUpdateRepo.deletebyemail(email);
-        Integer delete =candidateRepo.deleteByemail(email);
-        if (delete==0){
-            return "email not exist";
+
+        CandidateRegistration candidateRegistration=candidateRepo.findByemail(email);
+        if (candidateRegistration==null){
+            return "Candidate not exist";
+        }else {
+            candidateRepo.deleteByemail(email);
+            statusUpdateRepo.deletebyemail(email);
+            return "candidate deleted sucessfully";
         }
-        else
-            return "candidate deleted";
     }
 
     public CandidateRegistration updateCandidate(CandidateRegistrationDto candidateRegistrationDto) {
@@ -97,9 +99,9 @@ public class CandidateServices {
         if (exist!=null){
             candidateStatus.setDate(LocalDate.now());
             exist.setStatus(candidateStatus.getStatus());
-            statusUpdateRepo.save(candidateStatus);
             candidateStatus.setEmail(exist.getEmail());
             candidateStatus.setCandidate_Id(exist.getCandidateId());
+            statusUpdateRepo.save(candidateStatus);
             candidateRepo.save(exist);
             return "saved";
         }

@@ -13,12 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportResponseDto {
-    private LocalDate date1;
-    private LocalDate date2;
+    private List<LocalDate> date;
+
     private List<String> candidateEmail;
     private List<String> panelEmail;
     private List<String> status;
     private List<String> comment;
     private List<String> level;
+    private Long phone;
+    private List<String> skill;
 
 }

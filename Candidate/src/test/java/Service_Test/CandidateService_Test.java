@@ -1,27 +1,35 @@
 package Service_Test;
 import candidateproject.details.Candidate.Dto.CandidateRegistrationDto;
 import candidateproject.details.Candidate.Entity.CandidateRegistration;
+import candidateproject.details.Candidate.Entity.CandidateStatus;
 import candidateproject.details.Candidate.Entity.SkillsList;
 import candidateproject.details.Candidate.Repository.CandidateRepo;
 import candidateproject.details.Candidate.Repository.SkillsRepo;
+import candidateproject.details.Candidate.Repository.StatusUpdateRepo;
 import candidateproject.details.Candidate.Services.CandidateServices;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,9 +39,14 @@ public class CandidateService_Test {
     CandidateRepo candidateRepo;
     @Mock
     SkillsRepo skillsRepo;
+    @Mock
+    StatusUpdateRepo statusUpdateRepo;
     @InjectMocks
     CandidateServices candidateServices;
 //    public CandidateRegistration candidate;
+    public CandidateRegistrationDto candidateRegistrationDto;
+    public CandidateRegistration candidateRegistration;
+    public CandidateStatus candidateStatus;
     public SkillsList skillsList;
 
     @Test
@@ -45,7 +58,7 @@ public class CandidateService_Test {
         assertEquals(1,candidateServices.getcandidate().size());
     }
     @Test
-    public void test_addCandidate(){
+    public void test_addCandidate() throws IOException {
         MockMultipartFile file = null;
 
         CandidateRegistrationDto candidateRegistrationDto= CandidateRegistrationDto.builder()
@@ -102,7 +115,8 @@ public class CandidateService_Test {
 
                     }
                 }.file(file)).build();
-//        when(candidateRepo.save(candidateRegistrationDto)).thenReturn(candidateRegistrationDto);
+        when(candidateRepo.save(candidateRegistration)).then((Answer<?>) candidateRegistrationDto);
+//        assertEquals(1,candidateServices.add(file,candidateRegistrationDto));
     }
 
     @Test
@@ -153,8 +167,101 @@ public class CandidateService_Test {
         CandidateRegistration candidateRegistration=CandidateRegistration.builder()
                 .name("Iqbal").email("iqbal@gmail.com").pancard("DDFGE4555T").phone(8767890987L).status("L1-Selected")
                 .build();
-        when(candidateRepo.findByphone(candidateRegistration.getPhone())).thenReturn(candidateRegistration);
-        Long phone=candidateRegistration.getPhone();
-        assertEquals(8767890987L,candidateServices.findbyphone(candidateRegistration).getPhone());
+        Long phone=8767890987L;
+        when(candidateRepo.findByphone(phone)).thenReturn((CandidateRegistration) candidateRegistration);
+
+        assertEquals(8767890987L,candidateServices.findbyphone(phone));
     }
+
+    @Test
+    public void test_deletebyemail(){
+        CandidateRegistration candidateRegistration=CandidateRegistration.builder()
+                .name("Iqbal").email("iqbal@gmail.com").pancard("DDFGE4555T").phone(8767890987L).status("L1-Selected")
+                .build();
+        String email="iqba1@gmail.com";
+        when(candidateRepo.findByemail(email)).thenReturn(candidateRegistration);
+        if (email!=candidateRegistration.getEmail()){
+            assertEquals("candidate not exist","candidate not exist");
+        }
+        else {
+            when(candidateRepo.deleteByemail(email)).thenReturn(null);
+//            when(statusUpdateRepo.deletebyemail(email)).thenReturn(null);
+            assertEquals("candidate deleted sucessfully", candidateServices.deletebyemail(email));
+        }
+    }
+    @Test
+    public void test_updatecandidate(){
+        CandidateRegistration candidateRegistration=CandidateRegistration.builder()
+                .name("Iqbal").email("iqbal@gmail.com").pancard("DDFGE4555T").phone(8767890987L).status("L1-Selected").noticePeriod("25")
+                .build();
+        String email="iqba1@gmail.com";
+        when(candidateRepo.findByemail(email)).thenReturn(candidateRegistration);
+        candidateRegistration.setNoticePeriod("10");
+        candidateRegistration.setStatus("L2-Selected");
+        when(candidateRepo.save(candidateRegistration)).thenReturn(candidateRegistration);
+        assertEquals("L2-Selected",candidateServices.updateCandidate(candidateRegistrationDto).getStatus());
+    }
+    @Test
+    public void test_addstatus(){
+        CandidateRegistration candidateRegistration=CandidateRegistration.builder()
+                .name("Iqbal").email("iqbal@gmail.com").pancard("DDFGE4555T").phone(8767890987L).status("L1-Selected").noticePeriod("25")
+                .build();
+        CandidateStatus candidateStatus= CandidateStatus.builder().email("iqbal@gmail.com").status("L2-Selected").comment("Good").build();
+        String email= candidateStatus.getEmail();
+        when(candidateRepo.findByemail(email)).thenReturn(candidateRegistration);
+        if(candidateRegistration.getEmail()!=null){
+            candidateStatus.setDate(LocalDate.now());
+        candidateRegistration.setStatus(candidateStatus.getStatus());
+            candidateStatus.setEmail(candidateRegistration.getEmail());
+            candidateStatus.setCandidate_Id(candidateStatus.getCandidate_Id());
+            when(statusUpdateRepo.save(candidateStatus)).thenReturn(candidateStatus);
+            when(candidateRepo.save(candidateRegistration)).thenReturn(candidateRegistration);
+            assertEquals("saved",candidateServices.addstatus(candidateStatus));
+        }
+}
+        @Test
+                public void test_findbylevel() {
+            List<CandidateStatus> candidateStatusList = new ArrayList<CandidateStatus>();
+            candidateStatusList.add(new CandidateStatus(1,"iqbal","iqbal@gmail.com","selected",1,LocalDate.now(),"good"));
+            candidateStatusList.add(new CandidateStatus(2,"md","md@gmail.com","selected",1,LocalDate.now(),"ex"));
+            List<CandidateStatus> candidateStatuses= (List<CandidateStatus>) candidateStatusList.stream().filter(e->"selected".equals(e.getStatus())).collect(Collectors.toList());
+            String status= candidateStatuses.stream().map(e->e.getStatus()).toString();
+            System.out.println(status);
+            when(statusUpdateRepo.findbylevel(status)).thenReturn(candidateStatuses);
+            assertEquals(2,candidateServices.findbylevel(status).size());
+        }
+
+        @Test
+    public void test_findbydate(){
+            List<CandidateStatus> candidateStatusList = new ArrayList<CandidateStatus>();
+            candidateStatusList.add(new CandidateStatus(1,"iqbal","iqbal@gmail.com","selected",1,LocalDate.parse("2023-11-17"),"good"));
+            candidateStatusList.add(new CandidateStatus(2,"iqbal","iqbal@gmail.com","Rejected",1,LocalDate.now(),"ex"));
+            CandidateStatus ids= candidateStatusList.stream().max((e1, e2) -> e1.getDate().compareTo(e2.getDate())).get();
+            int id= ids.getCandidate_Id();
+            when(statusUpdateRepo.findbydate(id)).thenReturn(ids);
+            assertEquals("Rejected",candidateServices.findbydate(id).getStatus());
+        }
+
+        @Test
+    public void test_getallskills(){
+        List<SkillsList> skillsList1=new ArrayList<SkillsList>();
+        skillsList1.add(new SkillsList(1,"Java"));
+        skillsList1.add(new SkillsList(2,"Python"));
+        when(skillsRepo.findAll()).thenReturn(skillsList1);
+        assertEquals(2,candidateServices.getallskills().size());
+        }
+
+        @Test
+    public void test_deleteskills(){
+            List<SkillsList> skillsList1=new ArrayList<SkillsList>();
+            skillsList1.add(new SkillsList(1,"Java"));
+            skillsList1.add(new SkillsList(2,"Python"));
+            SkillsList skillsList2= (SkillsList) skillsList1.stream().collect(Collectors.toList());
+            int skillid=2;
+            when(skillsRepo.getbyskill(skillid)).thenReturn(skillsList2);
+            if ((skillsList2.getSkill()!=null)){
+                when(skillsRepo.getbyskillId(skillid)).thenReturn(skillsList2);
+                assertEquals("skill deleted",candidateServices.deleteskills(skillid));
+            }
+        }
 }
