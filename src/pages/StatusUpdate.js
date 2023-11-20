@@ -148,6 +148,12 @@ function Status() {
               label={"Submit"}
               variant={"light"}
               handleForm={handleForm}
+              disabled={
+                !statusupdate.name ||
+                !statusupdate.email ||
+                !statusupdate.status ||
+                !statusupdate.comment
+              }
             />
 
             <ButtonComponent

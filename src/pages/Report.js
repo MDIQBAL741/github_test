@@ -10,11 +10,7 @@ export default function Report() {
   };
   const [rform, setrform] = useState(formData);
   const [masterData, setMasterData] = useState([]);
-  // const [cname, setcname]= useState("");
-  // const [cemail, setcemail]= useState("");
-  // const [cstatus, setcstatus]= useState("");
-  // const [ccomment, setccomment]= useState("");
-  // const [cid, setcid]= useState("");
+  const [interviewmaster, setinterviewmaster] =useState([]);
 
   const updateForm = (keyName, value) => {
     setrform((prevState) => {
@@ -34,21 +30,42 @@ export default function Report() {
       date1: rform.date1,
       date2: rform.date2,
     };
-    axios.get("http://localhost:8083/report/status_between_dates/"+rform.date1+"/"+rform.date2,formData)
-    .then((repo)=>{
-      setMasterData(repo.data);
-      console.log(rform.date1);
-      console.log(rform.date2);
-      console.log(repo);
-      console.log(repo.data);
- 
+    axios
+      .get(
+        "http://localhost:8083/report/status_between_dates/" +
+          rform.date1 +
+          "/" +
+          rform.date2,
+        formData
+      )
+      .then((repo) => {
+        setMasterData(repo.data);
+        console.log(rform.date1);
+        console.log(rform.date2);
+        console.log(repo);
+        console.log(repo.data);
+      })
+      .catch((err) => console.log(err));
+    clearForm();
+  };
+  const handleForm1 = (e) => {
+    e.preventDefault();
+
+    const formData = {
+      date1: rform.date1,
+      date2: rform.date2,
+    };
+    axios
+    .get("http://localhost:8083/report/interview_schedule_between/"+rform.date1 +"/" +rform.date2, formData)
+    .then((interview)=>{
+      setinterviewmaster(interview.data);
     })
-    .catch((err) => console.log(err));
+    .catch((err)=> console.log(err));
     clearForm();
   };
   return (
     <div class="main">
-      <form class="form" onSubmit={handleForm}>
+      <form class="form" onSubmit={(handleForm)}>
         <header class="header">
           <h4>Report Service</h4>
         </header>
@@ -69,54 +86,56 @@ export default function Report() {
               value={rform.date2}
               format={"date"}
             />
-            
-<div className="cs">
-<ButtonComponent
+            <div className="cs">
+              <ButtonComponent
                 type={"submit"}
                 label={"Check Status"}
                 variant={"light"}
                 handleForm={handleForm}
               />
-</div>           
+            </div>{" "}
+            {/* <div className="cs">
+              <ButtonComponent
+                type={"submit"}
+                label={"Interview Status"}
+                variant={"light"}
+                handleForm={handleForm1}
+              />
+            </div> */}
           </div>
-            
-        
+
           <div>
-       <form>
-        <div className="Table-wrapper">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Candidate_Id</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Comment</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {masterData.map((repo) =>{
-                    return (
-                      
-                      <tr>
-                        <td>{repo.candidate_Id}</td>
-                        <td>{repo.name}</td>
-                        <td>{repo.email}</td>
-                        <td>{repo.status}</td>
-                        <td>{repo.comment}</td>
+            <form>
+              <div className="Table-wrapper">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Candidate_Id</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Status</th>
+                      <th>Comment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {masterData.map((repo) => {
+                      return (
+                        <tr>
+                          <td>{repo.candidate_Id}</td>
+                          <td>{repo.name}</td>
+                          <td>{repo.email}</td>
+                          <td>{repo.status}</td>
+                          <td>{repo.comment}</td>
                         </tr>
-                    );
-                  })}
+                      );
+                    })}
                   </tbody>
-                  </table>
-                  </div>
-                  </form>
-                  
+                </table>
+              </div>
+            </form>
+          </div>
         </div>
-        </div>
-       
       </form>
     </div>
   );
-
 }

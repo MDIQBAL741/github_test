@@ -161,7 +161,7 @@ function Reg() {
                 handleChange={(value) => updateForm("name", value)}
                 value={regForm.name}
                 maxlength={"30"}
-                format={"text"}
+                type={"alpha"}
               />
             </div>
 
