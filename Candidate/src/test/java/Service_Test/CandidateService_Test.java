@@ -20,8 +20,6 @@ import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +30,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = CandidateService_Test.class)
 public class CandidateService_Test {
@@ -251,4 +250,13 @@ public class CandidateService_Test {
         assertEquals(2,candidateServices.getallskills().size());
         }
 
+        @Test
+    public void test_deleteskills() {
+            List<SkillsList> skillsList1 = new ArrayList<SkillsList>();
+            skillsList1.add(new SkillsList(1, "Java"));
+            skillsList1.add(new SkillsList(2, "Python"));
+            int skillid = 2;
+            candidateServices.deleteskills(skillid);
+            verify(skillsRepo,times(1)).deletebyskill(skillid);
+        }
 }

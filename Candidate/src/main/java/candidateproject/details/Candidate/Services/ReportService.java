@@ -92,6 +92,10 @@ public class ReportService {
     return interviewScheduleRepo.interviewSchedulesbtwndates(date1,date2);
     }
 
+    public List<CandidateStatus> statusbystatus(String status) {
+        return statusUpdateRepo.statusbystatus(status);
+    }
+
     public List<ReportResponseDto> getcandidatedetails(String email,ReportResponseDto reportResponseDto) {
     CandidateRegistration candidateRegistration=candidateRepo.findByemail(email);
     List<CandidateStatus> candidateStatus = statusUpdateRepo.findbyemail(email);
@@ -105,5 +109,7 @@ public class ReportService {
     reportResponseDto.setPanelEmail(interviewSchedule.stream().map(InterviewSchedule::getPanelEmail).collect(Collectors.toList()));
     return Collections.singletonList(reportResponseDto);
     }
+
+
 
 }

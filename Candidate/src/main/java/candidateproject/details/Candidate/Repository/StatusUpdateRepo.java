@@ -29,5 +29,6 @@ public interface StatusUpdateRepo extends JpaRepository<CandidateStatus,Integer>
     @Query(value = "select * from candidatestatus where date between :date1 and :date2",nativeQuery = true)
     List<CandidateStatus> statusbtwndates(@PathVariable("date1") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date1,
                                           @PathVariable("date2") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date2);
-
+    @Query(value = "select * from candidatestatus where status=:status",nativeQuery = true)
+    List<CandidateStatus> statusbystatus(String status);
 }

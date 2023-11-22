@@ -52,6 +52,12 @@ public class ReportController {
                                                           @PathVariable("date2") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date2){
             return reportService.interviewSchedulesbtwndates(date1,date2);
         }
+
+        @GetMapping("/statusbystatus/{status}")
+        public List<CandidateStatus> statusbystatus(@PathVariable String status){
+            return reportService.statusbystatus(status);
+        }
+
         @GetMapping("/getcandidatedetails/{email}")
     public List<ReportResponseDto> getcandidatedetails(@PathVariable String email,@RequestBody ReportResponseDto reportResponseDto){
             return reportService.getcandidatedetails(email,reportResponseDto);
